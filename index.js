@@ -75,13 +75,10 @@ function playRound(computerChoice, humanChoice) {
 }
 
 function playGame() {
-	for (let i = 1; i <= 5; i++) {
-		alert(`ROUND ${i}`);
-		const humanSelection = getHumanChoice();
-		const computerSelection = getComputerChoice();
+	const humanSelection = getHumanChoice();
+	const computerSelection = getComputerChoice();
 
-		playRound(computerSelection, humanSelection)
-	}
+	playRound(computerSelection, humanSelection)
 	if (humanScore > computerScore) {
 		alert(`THE WINNER IS:\nYOU: ${humanScore}\nComputer: ${computerScore}\nYou win!`);
 		console.log(`THE WINNER IS:\nYOU: ${humanScore}\nComputer: ${computerScore}\nYou win!`);
