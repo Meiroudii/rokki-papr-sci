@@ -1,7 +1,7 @@
-const scoreHuman = document.getElementById("scoreHuman");
-const scoreComputer = document.getElementById("scoreComputer");
-const humanSelection = document.getElementById("humanSelection");
-const computerSelection = document.getElementById("computerSelection");
+const display_score_human = document.getElementById("scoreHuman");
+const display_score_computer = document.getElementById("scoreComputer");
+const display_human_selection = document.getElementById("humanSelection");
+const display_computer_selection = document.getElementById("computerSelection");
 const announcer = document.getElementById("announcer");
 
 const btn_rock = document.getElementById("choice_rock");
@@ -10,6 +10,15 @@ const btn_scissor = document.getElementById("choice_scissor");
 
 let computerScore = 0;
 let humanScore = 0;
+
+if (computerScore == 5 || humanScore == 5) {
+	if (computerScore > humanScore) {
+		announcer.textContent = "Winner: Computer";
+	}
+	if (computerScore < humanScore) {
+		announcer.textContent = "Winner: Human";
+	}
+}
 
 function getComputerChoice() {
 	let bot = parseInt(Math.floor(Math.random() * 3) + 1);
@@ -32,17 +41,22 @@ function getHumanChoice(callback) {
 	return humanChoice;
 }
 */
+//TODO: Add display the players' chosen attack
 
 function playRound(computerChoice, humanChoice) {
 	function announceLose() {
 		computerScore = computerScore + 1;
 		announcer.textContent = `You lose!\n${computerChoice} beats ${humanChoice}\nCOMP: ${computerScore}\nYOU:${humanScore}`;
+		display_score_human.textContent = `${humanScore}`;
+		display_score_computer.textContent = `${computerScore}`;
 		console.log(`You lose!\n${computerChoice} beats ${humanChoice}\nCOMP: ${computerScore}\nYOU:${humanScore}`);
 		console.log(`You choose ${humanChoice}`);
 	}
 	function announceWin() {
 		humanScore = humanScore + 1;
 		announcer.textContent = `You win!\n${humanChoice} beats ${computerChoice}\nCOMP: ${computerScore}\nYOU:${humanScore}`;
+		display_score_human.textContent = `${humanScore}`;
+		display_score_computer.textContent = `${computerScore}`;
 		console.log(`You win!\nCOMP: ${computerScore}\nYOU:${humanScore}`);
 		console.log(`You choose ${humanChoice}`);
 	}

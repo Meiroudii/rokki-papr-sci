@@ -4,3 +4,16 @@ background: black;
 	
  }
 
+
+.main-header {
+	display: flex;
+	flex-direction: row;
+	margin: 15px;
+}
+
+.hero {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 75vh;
+}
