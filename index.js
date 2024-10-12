@@ -1,3 +1,16 @@
+const scoreHuman = document.getElementById("scoreHuman");
+const scoreComputer = document.getElementById("scoreComputer");
+const humanSelection = document.getElementById("humanSelection");
+const computerSelection = document.getElementById("computerSelection");
+const announcer = document.getElementById("announcer");
+
+const btn_rock = document.getElementById("choice_rock");
+const btn_paper = document.getElementById("choice_paper");
+const btn_scissor = document.getElementById("choice_scissor");
+
+let computerScore = 0;
+let humanScore = 0;
+
 function getComputerChoice() {
 	let bot = parseInt(Math.floor(Math.random() * 3) + 1);
 	let weapon;
@@ -13,29 +26,28 @@ function getComputerChoice() {
 			return weapon
 	}
 }
-function getHumanChoice() {
-	let user = prompt("Enter your weapon: rock, paper, scissors");
-	console.log(`LOG: Choosen ${user}`);
-	return user.toLowerCase();
+/*
+function getHumanChoice(callback) {
+	let humanChoice = callback();
+	return humanChoice;
 }
+*/
 
-let computerScore = 0;
-let humanScore = 0;
 function playRound(computerChoice, humanChoice) {
 	function announceLose() {
 		computerScore = computerScore + 1;
-		alert(`You lose!\n${computerChoice} beats ${humanChoice}\nCOMP: ${computerScore}\nYOU:${humanScore}`);
+		announcer.textContent = `You lose!\n${computerChoice} beats ${humanChoice}\nCOMP: ${computerScore}\nYOU:${humanScore}`;
 		console.log(`You lose!\n${computerChoice} beats ${humanChoice}\nCOMP: ${computerScore}\nYOU:${humanScore}`);
 		console.log(`You choose ${humanChoice}`);
 	}
 	function announceWin() {
 		humanScore = humanScore + 1;
-		alert(`You win!\n${humanChoice} beats ${computerChoice}\nCOMP: ${computerScore}\nYOU:${humanScore}`);
+		announcer.textContent = `You win!\n${humanChoice} beats ${computerChoice}\nCOMP: ${computerScore}\nYOU:${humanScore}`;
 		console.log(`You win!\nCOMP: ${computerScore}\nYOU:${humanScore}`);
 		console.log(`You choose ${humanChoice}`);
 	}
 	function announceTie() {
-		alert(`It's a tie!\n${humanChoice} are the same ${computerChoice}\nCOMP: ${computerScore}\nYOU:${humanScore}`);
+		announcer.textContent = `It's a tie!\n${humanChoice} are the same ${computerChoice}\nCOMP: ${computerScore}\nYOU:${humanScore}`;
 		console.log("It's a tie!");
 	}
 
@@ -74,25 +86,57 @@ function playRound(computerChoice, humanChoice) {
 	}
 }
 
-function playGame() {
-	for (let i = 1; i <= 5; i++) {
-		alert(`ROUND ${i}`);
-		const humanSelection = getHumanChoice();
-		const computerSelection = getComputerChoice();
-
-		playRound(computerSelection, humanSelection)
-	}
+btn_rock.addEventListener("click", () => {
+	const humanSelection = "rock";
+	const computerSelection = getComputerChoice();
+	playRound(computerSelection, humanSelection)
 	if (humanScore > computerScore) {
-		alert(`THE WINNER IS:\nYOU: ${humanScore}\nComputer: ${computerScore}\nYou win!`);
+		announcer.textContent = `THE WINNER IS:\nYOU: ${humanScore}\nComputer: ${computerScore}\nYou win!`;
 		console.log(`THE WINNER IS:\nYOU: ${humanScore}\nComputer: ${computerScore}\nYou win!`);
 	}
 	else if (humanScore < computerScore) {
-		alert(`THE WINNER IS:\nYOU: ${humanScore}\nComputer: ${computerScore}\nYou lose!`);
+		announcer.textContent = `THE WINNER IS:\nYOU: ${humanScore}\nComputer: ${computerScore}\nYou lose!`;
 		console.log(`YOU: ${humanScore}\nComputer: ${computerScore}\nYou lose!`);
 	}
 	else if (humanScore == computerScore) {
-		alert(`THE WINNER IS:\nYOU: ${humanScore}\nComputer: ${computerScore}\nIt's a tie!`);
+		announcer.textContent = `THE WINNER IS:\nYOU: ${humanScore}\nComputer: ${computerScore}\nIt's a tie!`;
 		console.log(`YOU: ${humanScore}\nComputer: ${computerScore}\nIt's a tie!`);
 	}
-}
-playGame();
+});
+
+btn_paper.addEventListener("click", () => {
+	const humanSelection = "paper";
+	const computerSelection = getComputerChoice();
+	playRound(computerSelection, humanSelection)
+	if (humanScore > computerScore) {
+		announcer.textContent = `THE WINNER IS:\nYOU: ${humanScore}\nComputer: ${computerScore}\nYou win!`;
+		console.log(`THE WINNER IS:\nYOU: ${humanScore}\nComputer: ${computerScore}\nYou win!`);
+	}
+	else if (humanScore < computerScore) {
+		announcer.textContent = `THE WINNER IS:\nYOU: ${humanScore}\nComputer: ${computerScore}\nYou lose!`;
+		console.log(`YOU: ${humanScore}\nComputer: ${computerScore}\nYou lose!`);
+	}
+	else if (humanScore == computerScore) {
+		announcer.textContent = `THE WINNER IS:\nYOU: ${humanScore}\nComputer: ${computerScore}\nIt's a tie!`;
+		console.log(`YOU: ${humanScore}\nComputer: ${computerScore}\nIt's a tie!`);
+	}
+});
+
+btn_scissor.addEventListener("click", () => {
+	const humanSelection = "scissor";
+	const computerSelection = getComputerChoice();
+	playRound(computerSelection, humanSelection)
+	if (humanScore > computerScore) {
+		announcer.textContent = `THE WINNER IS:\nYOU: ${humanScore}\nComputer: ${computerScore}\nYou win!`;
+		console.log(`THE WINNER IS:\nYOU: ${humanScore}\nComputer: ${computerScore}\nYou win!`);
+	}
+	else if (humanScore < computerScore) {
+		announcer.textContent = `THE WINNER IS:\nYOU: ${humanScore}\nComputer: ${computerScore}\nYou lose!`;
+		console.log(`YOU: ${humanScore}\nComputer: ${computerScore}\nYou lose!`);
+	}
+	else if (humanScore == computerScore) {
+		announcer.textContent = `THE WINNER IS:\nYOU: ${humanScore}\nComputer: ${computerScore}\nIt's a tie!`;
+		console.log(`YOU: ${humanScore}\nComputer: ${computerScore}\nIt's a tie!`);
+	}
+});
+
