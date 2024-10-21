@@ -4,6 +4,7 @@ const display_human_selection = document.getElementById("humanSelection");
 const display_computer_selection = document.getElementById("computerSelection");
 const announcer = document.getElementById("announcer");
 
+const selection_menu = document.getElementById("selection_menu");
 const btn_rock = document.getElementById("choice_rock");
 const btn_paper = document.getElementById("choice_paper");
 const btn_scissor = document.getElementById("choice_scissor");
@@ -11,12 +12,33 @@ const btn_scissor = document.getElementById("choice_scissor");
 let computerScore = 0;
 let humanScore = 0;
 
-if (computerScore == 5 || humanScore == 5) {
-	if (computerScore > humanScore) {
-		announcer.textContent = "Winner: Computer";
+function clear_score() {
+	computerScore = 0;
+	humanScore = 0;
+}
+
+function game_announcer() {
+	announcer.textContent = `You lose!\n${computerChoice} beats ${humanChoice}\nCOMP: ${computerScore}\nYOU:${humanScore}`;
+	display_score_human.textContent = `${humanScore}`;
+	display_score_computer.textContent = `${computerScore}`;
+	console.log(`You lose!\n${computerChoice} beats ${humanChoice}\nCOMP: ${computerScore}\nYOU:${humanScore}`);
+	console.log(`You choose ${humanChoice}`);
+}
+
+function rps_judge(humanSelection) {
+	const computerSelection = getComputerChoice();
+	playRound(computerSelection, humanSelection)
+	if (humanScore > computerScore) {
+		announcer.textContent = `THE WINNER IS:\nYOU: ${humanScore}\nComputer: ${computerScore}\nYou win!`;
+		console.log(`THE WINNER IS:\nYOU: ${humanScore}\nComputer: ${computerScore}\nYou win!`);
 	}
-	if (computerScore < humanScore) {
-		announcer.textContent = "Winner: Human";
+	else if (humanScore < computerScore) {
+		announcer.textContent = `THE WINNER IS:\nYOU: ${humanScore}\nComputer: ${computerScore}\nYou lose!`;
+		console.log(`YOU: ${humanScore}\nComputer: ${computerScore}\nYou lose!`);
+	}
+	else if (humanScore == computerScore) {
+		announcer.textContent = `THE WINNER IS:\nYOU: ${humanScore}\nComputer: ${computerScore}\nIt's a tie!`;
+		console.log(`YOU: ${humanScore}\nComputer: ${computerScore}\nIt's a tie!`);
 	}
 }
 
@@ -65,92 +87,33 @@ function playRound(computerChoice, humanChoice) {
 		console.log("It's a tie!");
 	}
 
-	if (humanChoice === "rock") {
-		if (computerChoice === "paper") {
-			announceLose();
-		}
-		else if (computerChoice === "scissors") {
-			announceWin();
-		}
-		else {
-			announceTie();
-		}
-	}
-	else if (humanChoice === "paper") {
-		if (computerChoice === "scissors") {
-			announceLose();
-		}
-		else if (computerChoice === "rock") {
-			announceWin();
-		}
-		else {
-			announceTie();
-		}
-	}
-	else if (humanChoice === "scissors") {
-		if (computerChoice === "rock") {
-			announceLose();
-		}
-		else if (computerChoice === "paper") {
-			announceWin();
-		}
-		else {
-			announceTie();
-		}
+	if (humanChoice === computerChoice) {
+		announceTie();
+	} else if (
+		humanChoice === "rock" && computerChoice === "scissors" ||
+		humanChoice === "paper" && computerChoice === "rock" ||
+		humanChoice === "scissors" && computerChoice === "paper") {
+		announceWin();
+	} else {
+		announceLose();
 	}
 }
 
-btn_rock.addEventListener("click", () => {
-	const humanSelection = "rock";
-	const computerSelection = getComputerChoice();
-	playRound(computerSelection, humanSelection)
-	if (humanScore > computerScore) {
-		announcer.textContent = `THE WINNER IS:\nYOU: ${humanScore}\nComputer: ${computerScore}\nYou win!`;
-		console.log(`THE WINNER IS:\nYOU: ${humanScore}\nComputer: ${computerScore}\nYou win!`);
-	}
-	else if (humanScore < computerScore) {
-		announcer.textContent = `THE WINNER IS:\nYOU: ${humanScore}\nComputer: ${computerScore}\nYou lose!`;
-		console.log(`YOU: ${humanScore}\nComputer: ${computerScore}\nYou lose!`);
-	}
-	else if (humanScore == computerScore) {
-		announcer.textContent = `THE WINNER IS:\nYOU: ${humanScore}\nComputer: ${computerScore}\nIt's a tie!`;
-		console.log(`YOU: ${humanScore}\nComputer: ${computerScore}\nIt's a tie!`);
-	}
-});
-
-btn_paper.addEventListener("click", () => {
-	const humanSelection = "paper";
-	const computerSelection = getComputerChoice();
-	playRound(computerSelection, humanSelection)
-	if (humanScore > computerScore) {
-		announcer.textContent = `THE WINNER IS:\nYOU: ${humanScore}\nComputer: ${computerScore}\nYou win!`;
-		console.log(`THE WINNER IS:\nYOU: ${humanScore}\nComputer: ${computerScore}\nYou win!`);
-	}
-	else if (humanScore < computerScore) {
-		announcer.textContent = `THE WINNER IS:\nYOU: ${humanScore}\nComputer: ${computerScore}\nYou lose!`;
-		console.log(`YOU: ${humanScore}\nComputer: ${computerScore}\nYou lose!`);
-	}
-	else if (humanScore == computerScore) {
-		announcer.textContent = `THE WINNER IS:\nYOU: ${humanScore}\nComputer: ${computerScore}\nIt's a tie!`;
-		console.log(`YOU: ${humanScore}\nComputer: ${computerScore}\nIt's a tie!`);
+selection_menu.addEventListener("click", (e) => {
+	let target = e.target;
+	let humanSelection = "rock";
+	switch (target.id) {
+		case "choice_rock":
+			humanSelection = "rock";
+			rps_judge(humanSelection);
+			break;
+		case "choice_scissor":
+			humanSelection = "scissor";
+			rps_judge(humanSelection);
+			break;
+		case "choice_paper":
+			humanSelection = "paper";
+			rps_judge(humanSelection);
+			break;
 	}
 });
-
-btn_scissor.addEventListener("click", () => {
-	const humanSelection = "scissor";
-	const computerSelection = getComputerChoice();
-	playRound(computerSelection, humanSelection)
-	if (humanScore > computerScore) {
-		announcer.textContent = `THE WINNER IS:\nYOU: ${humanScore}\nComputer: ${computerScore}\nYou win!`;
-		console.log(`THE WINNER IS:\nYOU: ${humanScore}\nComputer: ${computerScore}\nYou win!`);
-	}
-	else if (humanScore < computerScore) {
-		announcer.textContent = `THE WINNER IS:\nYOU: ${humanScore}\nComputer: ${computerScore}\nYou lose!`;
-		console.log(`YOU: ${humanScore}\nComputer: ${computerScore}\nYou lose!`);
-	}
-	else if (humanScore == computerScore) {
-		announcer.textContent = `THE WINNER IS:\nYOU: ${humanScore}\nComputer: ${computerScore}\nIt's a tie!`;
-		console.log(`YOU: ${humanScore}\nComputer: ${computerScore}\nIt's a tie!`);
-	}
-});
-
