@@ -3,42 +3,42 @@ const display_score_computer = document.getElementById("scoreComputer");
 const display_human_selection = document.getElementById("humanSelection");
 const display_computer_selection = document.getElementById("computerSelection");
 const announcer = document.getElementById("announcer");
+const round_counter = document.getElementById("round_counter");
+const body = document.querySelector("body");
 
 const selection_menu = document.getElementById("selection_menu");
-const btn_rock = document.getElementById("choice_rock");
-const btn_paper = document.getElementById("choice_paper");
-const btn_scissor = document.getElementById("choice_scissor");
 
 let computerScore = 0;
 let humanScore = 0;
+let current_round = 0;
 
 function clear_score() {
 	computerScore = 0;
 	humanScore = 0;
+	current_round = 0;
 }
 
-function game_announcer() {
-	announcer.textContent = `You lose!\n${computerChoice} beats ${humanChoice}\nCOMP: ${computerScore}\nYOU:${humanScore}`;
-	display_score_human.textContent = `${humanScore}`;
-	display_score_computer.textContent = `${computerScore}`;
-	console.log(`You lose!\n${computerChoice} beats ${humanChoice}\nCOMP: ${computerScore}\nYOU:${humanScore}`);
-	console.log(`You choose ${humanChoice}`);
-}
-
-function rps_judge(humanSelection) {
-	const computerSelection = getComputerChoice();
-	playRound(computerSelection, humanSelection)
-	if (humanScore > computerScore) {
-		announcer.textContent = `THE WINNER IS:\nYOU: ${humanScore}\nComputer: ${computerScore}\nYou win!`;
-		console.log(`THE WINNER IS:\nYOU: ${humanScore}\nComputer: ${computerScore}\nYou win!`);
-	}
-	else if (humanScore < computerScore) {
-		announcer.textContent = `THE WINNER IS:\nYOU: ${humanScore}\nComputer: ${computerScore}\nYou lose!`;
-		console.log(`YOU: ${humanScore}\nComputer: ${computerScore}\nYou lose!`);
-	}
-	else if (humanScore == computerScore) {
-		announcer.textContent = `THE WINNER IS:\nYOU: ${humanScore}\nComputer: ${computerScore}\nIt's a tie!`;
-		console.log(`YOU: ${humanScore}\nComputer: ${computerScore}\nIt's a tie!`);
+function game_announcer(computerChoice, humanChoice) {
+	if (humanScore > computerChoice) {
+		announcer.textContent = `You win!\n${humanChoice} beats ${computerChoice}\nCOMP: ${computerScore}\nYOU:${humanScore}`;
+		display_score_human.textContent = `${humanScore}`;
+		display_score_computer.textContent = `${computerScore}`;
+		console.log(`You win!\nCOMP: ${computerScore}\nYOU:${humanScore}`);
+		console.log(`You choose ${humanChoice}`);
+		if (humanScore == 5 || computerScore == 5) {
+			clear_score();
+			announcer.textContent = `Game ENDED!! You WIN!`;
+		}
+	} else {
+		announcer.textContent = `You lose!\n${computerChoice} beats ${humanChoice}\nCOMP: ${computerScore}\nYOU:${humanScore}`;
+		display_score_human.textContent = `${humanScore}`;
+		display_score_computer.textContent = `${computerScore}`;
+		console.log(`You lose!\n${computerChoice} beats ${humanChoice}\nCOMP: ${computerScore}\nYOU:${humanScore}`);
+		console.log(`You choose ${humanChoice}`);
+		if (humanScore == 5 || computerScore == 5) {
+			clear_score();
+			announcer.textContent = `Game ENDED!! You LOSE!`;
+		}
 	}
 }
 
@@ -57,36 +57,8 @@ function getComputerChoice() {
 			return weapon
 	}
 }
-/*
-function getHumanChoice(callback) {
-	let humanChoice = callback();
-	return humanChoice;
-}
-*/
-//TODO: Add display the players' chosen attack
 
 function playRound(computerChoice, humanChoice) {
-	function announceLose() {
-		computerScore = computerScore + 1;
-		announcer.textContent = `You lose!\n${computerChoice} beats ${humanChoice}\nCOMP: ${computerScore}\nYOU:${humanScore}`;
-		display_score_human.textContent = `${humanScore}`;
-		display_score_computer.textContent = `${computerScore}`;
-		console.log(`You lose!\n${computerChoice} beats ${humanChoice}\nCOMP: ${computerScore}\nYOU:${humanScore}`);
-		console.log(`You choose ${humanChoice}`);
-	}
-	function announceWin() {
-		humanScore = humanScore + 1;
-		announcer.textContent = `You win!\n${humanChoice} beats ${computerChoice}\nCOMP: ${computerScore}\nYOU:${humanScore}`;
-		display_score_human.textContent = `${humanScore}`;
-		display_score_computer.textContent = `${computerScore}`;
-		console.log(`You win!\nCOMP: ${computerScore}\nYOU:${humanScore}`);
-		console.log(`You choose ${humanChoice}`);
-	}
-	function announceTie() {
-		announcer.textContent = `It's a tie!\n${humanChoice} are the same ${computerChoice}\nCOMP: ${computerScore}\nYOU:${humanScore}`;
-		console.log("It's a tie!");
-	}
-
 	if (humanChoice === computerChoice) {
 		announceTie();
 	} else if (
@@ -97,23 +69,65 @@ function playRound(computerChoice, humanChoice) {
 	} else {
 		announceLose();
 	}
+	function announceLose() {
+		computerScore = computerScore + 1;
+		game_announcer(computerChoice, humanChoice);
+	}
+	function announceWin() {
+		humanScore = humanScore + 1;
+		game_announcer(computerChoice, humanChoice);
+	}
+	function announceTie() {
+		announcer.textContent = `It's a tie!\n${humanChoice} are the same ${computerChoice}\nCOMP: ${computerScore}\nYOU:${humanScore}`;
+		console.log("It's a tie!");
+	}
 }
 
 selection_menu.addEventListener("click", (e) => {
+	const computerSelection = getComputerChoice();
+	current_round += 1;
+	round_counter.textContent = `ROUND: ${current_round}`;
 	let target = e.target;
-	let humanSelection = "rock";
+	let humanSelection = "";
 	switch (target.id) {
 		case "choice_rock":
 			humanSelection = "rock";
-			rps_judge(humanSelection);
+			playRound(computerSelection, humanSelection);
 			break;
 		case "choice_scissor":
 			humanSelection = "scissor";
-			rps_judge(humanSelection);
+			playRound(computerSelection, humanSelection);
 			break;
 		case "choice_paper":
 			humanSelection = "paper";
-			rps_judge(humanSelection);
+			playRound(computerSelection, humanSelection);
 			break;
 	}
 });
+
+body.addEventListener("keyup", (e) => {
+	const computerSelection = getComputerChoice();
+	current_round += 1;
+	round_counter.textContent = `ROUND: ${current_round}`;
+	if (humanScore == 5 || computerScore == 5) {
+		clear_score();
+		alert("Game ended");
+	}
+	let target = e.key;
+	let humanSelection = "";
+	switch (target) {
+		case "z":
+			humanSelection = "rock";
+			playRound(computerSelection, humanSelection);
+			break;
+		case "x":
+			humanSelection = "scissor";
+			playRound(computerSelection, humanSelection);
+			break;
+		case "c":
+			humanSelection = "paper";
+			playRound(computerSelection, humanSelection);
+			break;
+	}
+});
+

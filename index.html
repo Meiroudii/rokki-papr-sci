@@ -11,7 +11,7 @@
 	<body>
 		<header class="main-header">
 			<span>
-				<img src="logo.jpg" width="100px"/>
+				<img class="logo" src="logo.jpg" width="100px"/>
 			</span>
 			<h2>Rokki Papr Sci</h2>
 			<nav>
@@ -29,7 +29,8 @@
 			</nav>
 		</header>
 		<main class="hero">
-			<section>
+			<section class="information-section">
+				<div id="round_counter"></div>
 				<div id="announcer"></div>
 				<div class="score-container">
 					<p>Player: </p>
@@ -38,11 +39,20 @@
 					<span id="scoreComputer"></span>
 				</div>
 			</section>
-			<section>
+			<section class="interface-section">
 				<div id="selection_menu">
-					<button id="choice_rock" >Rock</button>
-					<button id="choice_paper" >Paper</button>
-					<button id="choice_scissor" >Scissor</button>
+					<button id="choice_rock" >
+						z
+						<img id="choice_rock" class="action-button-icon" src="./assets/rock.svg" alt="choosing rock"/>
+					</button>
+					<button id="choice_paper" >
+						x
+						<img id="choice_paper" class="action-button-icon" src="./assets/paper.svg" alt="choosing paper"/>
+					</button>
+					<button id="choice_scissor" >
+						c
+						<img id="choice_scissor" class="action-button-icon" src="./assets/scissors.svg" alt="choosing scissors"/>
+					</button>
 				</div>
 				<div>
 					<span id="humanSelection"></span>
